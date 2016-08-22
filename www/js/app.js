@@ -10,10 +10,10 @@ angular.module('IonicChat', ['ionic', 'IonicChat.controllers', 'firebase', 'ngSt
   $ionicPlatform.ready(function() {
 
      var config = {
-        apiKey: "AIzaSyAPl_wcscCcg_7wKgf_uMoJCyJ3WhdRtMU",
-        authDomain: "fir-chat-8e158.firebaseapp.com",
-        databaseURL: "https://fir-chat-8e158.firebaseio.com",
-        storageBucket: "fir-chat-8e158.appspot.com",
+        apiKey: "",
+        authDomain: "",
+        databaseURL: "",
+        storageBucket: "",
       };
 
       firebase.initializeApp(config);
