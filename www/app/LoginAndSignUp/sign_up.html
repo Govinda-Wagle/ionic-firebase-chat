@@ -1,0 +1,14 @@
+ <ion-content style="background-color:#4f5d73 !important;">
+ 	<img src="img/user.png" class="loginUserImg"/>
+	<div class="list list-inset">
+		<form ng-submit="register(registerData)">
+		  <label class="item item-input">
+		    <input type="text" placeholder="Username" ng-model="registerData.email">
+		  </label>
+		  <label class="item item-input">
+		    <input type="password" placeholder="Password" ng-model="registerData.password">
+		  </label>
+		  <button class="button button-block button-positive loginButton" type="submit">Register</button>
+		  <button class="button button-block  button-clear button-positive" ng-click="goToLogin()"> Login!</button>
+	</div>
+ </ion-content>

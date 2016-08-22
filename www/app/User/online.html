@@ -1,0 +1,14 @@
+<ion-view view-title="Online users" style="background-color:#4f5d73;">
+
+  <ion-content class="padding">
+  <div class="list">
+	  <a class="item item-icon-left item-text-wrap" ng-repeat="user in onlineUsers" ng-click="goToChatRoom(user.uid)" ng-if="user.online == true">
+	    <i class="icon ion-person-stalker"></i>
+	    {{user.email}}
+	    <span class="badge badge-positive"><i class="ion-checkmark-round"></i></span>
+	  </a>
+
+</div>
+
+  </ion-content>
+</ion-view>

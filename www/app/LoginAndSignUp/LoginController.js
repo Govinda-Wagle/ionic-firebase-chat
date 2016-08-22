@@ -1,0 +1,26 @@
+angular.module('IonicChat.controllers')
+.controller('LoginCtrl', function($scope, $state, $sessionStorage) {
+
+  $scope.loginData = {};
+
+  $scope.goToRegistration = function() {
+    $state.go('chatAppLoginAndRegistration.registration')
+  }
+
+  // Perform the login action when the user submits the login form
+  $scope.doLogin = function() {
+  	console.log($scope.loginData);
+   firebase.auth().signInWithEmailAndPassword($scope.loginData.email, $scope.loginData.password).then(function(response) {
+    console.log(JSON.stringify(response));
+    $sessionStorage.currentUser = {uid:response.uid, email:response.email};
+    $state.go('app.onlineUsers');
+
+    }, function(error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorMessage);
+    });
+
+  };
+
+})
