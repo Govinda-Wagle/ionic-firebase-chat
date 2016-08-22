@@ -18,68 +18,7 @@ angular.module('IonicChat', ['ionic', 'IonicChat.controllers', 'firebase', 'ngSt
 
       firebase.initializeApp(config);
       var auth = firebase.auth();
-      var user = firebase.auth().currentUser;
-      console.log(user);
-
-
-     // var user =  {
-     //    email: 'stalliongowin@outlook.com',
-     //    password: 'test@123',
-     //    uid: 'not available',
-     //    online: false
-     //  };
-
-      // var messages = {
-      //   from: 'uid',
-      //   to: 'uid',
-      //   message: 'sdfsdtesttesttest',
-      //   timestamps: 'current'
-      // };
-
-      // var connectedRef = firebase.database().ref(".info/connected");
-      //   connectedRef.on("value", function(snap) {
-      //     if (snap.val() === true) {
-      //       // alert("connected");
-      //     } else {
-      //       // alert("not connected");
-      //     }
-      //   });
-
-
-
-      // auth.onAuthStateChanged(function(user) {
-      //   if (user) {
-      //    $state.go('app.chats');
-      //     console.log('logged in');
-      //     // console.log(JSON.stringify(user));
-      //        // var userRefs = firebase.database().ref('users');
-
-
-
-      //        // userRefs.on('value', function(snapshot) {
-      //        //  var users = snapshot.val();
-      //         // console.log(users);
-      //        //  angular.forEach(users, function(value, key) {
-      //        //    // console.log(value);
-      //        //    // console.log(key);
-      //        //    // var userRefs2 = firebase.database().ref('users/'+key);
-      //        //    // userRefs2.set(true)
-      //        //    // var fbObj = $firebaseObject(firebase.("users/" + key));
-      //        //    // console.log(fbObj);
-
-      //        //  })
-      //        // })
-      //     // $state.go('app.browse',{});
-      //     // User signed in!
-      //     // var uid = user.uid;
-      //   } else {
-      //     console.log('dsfads');
-      //     // User logged out
-      //   }
-      // });
-
-
-
+    
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins.Keyboard) {
