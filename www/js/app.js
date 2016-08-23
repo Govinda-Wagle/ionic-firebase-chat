@@ -86,7 +86,7 @@ angular.module('IonicChat', ['ionic', 'IonicChat.controllers', 'firebase', 'ngSt
 
 
     .state('app.chats', {
-      url: '/chats/:uid',
+      url: '/chats/:uid/:email',
       views: {
         'menuContent': {
           templateUrl: 'app/Chat/chats.html',

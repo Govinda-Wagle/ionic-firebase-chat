@@ -2,7 +2,7 @@
 
   <ion-content class="padding">
   <div class="list">
-	  <a class="item item-icon-left item-text-wrap" ng-repeat="user in onlineUsers" ng-click="goToChatRoom(user.uid)" ng-if="user.online == true">
+	  <a class="item item-icon-left item-text-wrap" ng-repeat="user in onlineUsers" ng-click="goToChatRoom(user.uid, user.email)" ng-if="user.online == true && currentUser.uid != user.uid">
 	    <i class="icon ion-person-stalker"></i>
 	    {{user.email}}
 	    <span class="badge badge-positive"><i class="ion-checkmark-round"></i></span>

@@ -1,19 +1,28 @@
 angular.module('IonicChat.controllers')
-.controller('ChatsCtrl', function($scope, $sessionStorage, $stateParams) {
-
-  console.log($sessionStorage.currentUser);
+.controller('ChatsCtrl', function($scope, $sessionStorage, $stateParams, $ionicScrollDelegate, $timeout) {
   var messagesRef = firebase.database().ref("messages");
+  var typingIndicatorRef = firebase.database().ref('typing_indicator/'+ $stateParams.uid + '-' + $sessionStorage.currentUser.uid);
+  var typeStoppedPromise;
+
+   typingIndicatorRef.on('value', function(snapshot) {
+      $scope.typing = snapshot.val()
+      $ionicScrollDelegate.scrollBottom(true);
+      $scope.$digest();
+
+   });
+
+
   $scope.toChatUser = $stateParams.uid;
+  $scope.toChatUserEmail = $stateParams.email;
   $scope.currentUser = $sessionStorage.currentUser;
-  console.log($scope.toChatUser);
-  console.log($sessionStorage.currentUser);
 
+  $scope.typing = false;
 
-  // $scope.messages = {"-KPf6PxYtBhT-WmSLxRD":{"from":"uid","message":"First message","to":"uid"}};
    messagesRef.on('value', function(snapshot) {
-    console.log('Messages are'+ JSON.stringify(snapshot.val()));
-    $scope.messages = snapshot.val();
-    $scope.$digest();
+      console.log('Messages are'+ JSON.stringify(snapshot.val()));
+      $scope.messages = snapshot.val();
+       $ionicScrollDelegate.scrollBottom(true);
+      $scope.$digest();
 
    });
 
@@ -22,43 +31,35 @@ angular.module('IonicChat.controllers')
      var messages = {
         from: $scope.currentUser.uid,
         to:  $scope.toChatUser,
-        message: message
-        //timestamps: 'current'
+        message: message,
+        timestamp: firebase.database.ServerValue.TIMESTAMP
       };
-      console.log(messages);
+      $scope.data.message = null;
      var dbRef = firebase.database().ref('messages');
-     dbRef.push(messages);
-
-    // console.log('Messages are here'+ message);
+     dbRef.push(messages).then(function(response) {
+      $ionicScrollDelegate.scrollBottom(true);
+     });
+    
   }
 
-  $scope.$on('$ionicView.beforeEnter', function(){ 
-     var usersRef = firebase.database().ref("users");
-         usersRef.on('value', function(snapshot) {
-          console.log(snapshot.val());
-            // var users = snapshot.val();
-            // $scope.users = snapshot.val();
-             $scope.firebaseUsers = snapshot.val();
-             console.log(JSON.stringify($scope.firebaseUsers));
-            //   angular.forEach(snapshot.val(), function(value, key) {
-            //   console.log(value);
-            //   console.log(key);
-            //    $scope.firebaseUsers.push(value);
-            //    // console.log()
-            //   // var userRefs2 = firebase.database().ref('users/'+key);
-            //   // userRefs2.set(true)
-            //   // var fbObj = $firebaseObject(firebase.("users/" + key));
-            //   // console.log(fbObj);
 
-            // })
+  $scope.updateTyping = function() {
+    $timeout.cancel(typeStoppedPromise);
 
+    var dbRef = firebase.database().ref('typing_indicator/'+ $scope.currentUser.uid +  '-' + $scope.toChatUser);
+    dbRef.set(true).then(function(response) {
+        $ionicScrollDelegate.scrollBottom(true);
+        $scope.$digest();
+     });
 
-             // console.log($scope.firebaseUsers);
-         }, function (errorObject) {
-          console.log("The read failed: " + errorObject.code);
-        });
-  
+    typeStoppedPromise = $timeout(function() {
+      var dbRef = firebase.database().ref('typing_indicator/'+ $scope.currentUser.uid +  '-' + $scope.toChatUser);
+      dbRef.set(false).then(function(response) {
+          $ionicScrollDelegate.scrollBottom(true);
+          $scope.$digest();
+       });
+    }, 800);
 
- 
-})
+  }
+
 })

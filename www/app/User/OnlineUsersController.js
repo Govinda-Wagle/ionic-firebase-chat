@@ -1,6 +1,8 @@
 angular.module('IonicChat.controllers')
 .controller('OnlineUsersCtrl', function($scope, $state, $sessionStorage) {
 
+  $scope.currentUser = $sessionStorage.currentUser;
+
    var usersRef = firebase.database().ref("users");
    usersRef.on('value', function(snapshot) {
        $scope.onlineUsers = snapshot.val();
@@ -11,7 +13,7 @@ angular.module('IonicChat.controllers')
   });
   
 
-  $scope.goToChatRoom = function(uid) {
-    $state.go('app.chats', {uid:uid})
+  $scope.goToChatRoom = function(uid, email) {
+    $state.go('app.chats', {uid:uid, email:email})
   }
 })

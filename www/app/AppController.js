@@ -9,19 +9,17 @@ angular.module('IonicChat.controllers')
   //});
 
 	$scope.logout = function() {
-		var userRef = firebase.database().ref('users/'+$sessionStorage.currentUser.uid);
-		userRef.on("value", function(snapshot) {
-		  console.log(snapshot.val());
-		}, function (errorObject) {
-		  console.log("The read failed: " + errorObject.code);
-		});
+		var userRef = firebase.database().ref('users/'+$sessionStorage.currentUser.uid+'/online');
+     userRef.set(false).then(function(response) {
+          firebase.auth().signOut().then(function() {
+            $state.go('chatAppLoginAndRegistration.login');
+          }, function(error) {
+            // An error happened.
+            console.log('Error Occured'+ Error);
+     });
+    });
 
-		// firebase.auth().signOut().then(function() {
-		//   $state.go('chatAppLoginAndRegistration.login');
-		// }, function(error) {
-		//   // An error happened.
-		//   console.log('Error Occured'+ Error);
-		// });
+
 
 	}
 

@@ -8,15 +8,15 @@ $scope.registerData = {};
   }
 
 $scope.register = function(registerData) {
-	console.log(registerData);
 	firebase.auth().createUserWithEmailAndPassword($scope.registerData.email, $scope.registerData.password).then(function(response) {
       var user =  {
-        email:response.email,
-        uid: response.uid,
-        online: true
-      };
-      var dbRef = firebase.database().ref('users');
-      dbRef.push(user).then(function(userResponse) {
+                    email:response.email,
+                    uid: response.uid,
+                    online: false
+                  };
+
+      var dbRef = firebase.database().ref('users/'+response.uid);
+      dbRef.set(user).then(function(userResponse) {
       	$state.go('chatAppLoginAndRegistration.login');
       });
     }, (function(error) {
@@ -29,6 +29,7 @@ $scope.register = function(registerData) {
     ));
 
 }
+
 $scope.goToChats = function() {
 	$state.go('app.chats');
 }
