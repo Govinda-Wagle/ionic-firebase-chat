@@ -6,18 +6,32 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('IonicChat', ['ionic', 'IonicChat.controllers', 'firebase', 'ngStorage'])
 
-.run(function($ionicPlatform, $state) {
+.run(function($ionicPlatform, $state, $localStorage, $sessionStorage) {
   $ionicPlatform.ready(function() {
 
      var config = {
-        apiKey: "",
-        authDomain: "",
-        databaseURL: "",
-        storageBucket: "",
+        apiKey: "AIzaSyAPl_wcscCcg_7wKgf_uMoJCyJ3WhdRtMU",
+        authDomain: "fir-chat-8e158.firebaseapp.com",
+        databaseURL: "https://fir-chat-8e158.firebaseio.com",
+        storageBucket: "fir-chat-8e158.appspot.com",
       };
 
       firebase.initializeApp(config);
-      var auth = firebase.auth();
+
+      if($localStorage.user != undefined) {
+         firebase.auth().signInWithEmailAndPassword($localStorage.user.email, $localStorage.user.password).then(function(response) {
+          $sessionStorage.currentUser = {uid:response.uid, email:response.email};
+          var userRef = firebase.database().ref('users/'+$sessionStorage.currentUser.uid+'/online');
+           userRef.set(true).then(function(response) {
+                $state.go('app.onlineUsers');
+          });
+
+          }, function(error) {
+              var errorCode = error.code;
+              var errorMessage = error.message;
+              console.log(errorMessage);
+          });
+      }
     
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)

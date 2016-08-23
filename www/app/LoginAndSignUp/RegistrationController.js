@@ -29,8 +29,4 @@ $scope.register = function(registerData) {
     ));
 
 }
-
-$scope.goToChats = function() {
-	$state.go('app.chats');
-}
 })

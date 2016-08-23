@@ -1,5 +1,5 @@
 angular.module('IonicChat.controllers')
-.controller('LoginCtrl', function($scope, $state, $sessionStorage) {
+.controller('LoginCtrl', function($scope, $state, $sessionStorage, $localStorage) {
 
   $scope.loginData = {};
 
@@ -9,10 +9,12 @@ angular.module('IonicChat.controllers')
 
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
+
    firebase.auth().signInWithEmailAndPassword($scope.loginData.email, $scope.loginData.password).then(function(response) {
     $sessionStorage.currentUser = {uid:response.uid, email:response.email};
     var userRef = firebase.database().ref('users/'+$sessionStorage.currentUser.uid+'/online');
      userRef.set(true).then(function(response) {
+         $localStorage.user = $scope.loginData;
           $state.go('app.onlineUsers');
     });
 

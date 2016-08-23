@@ -4,6 +4,10 @@ angular.module('IonicChat.controllers')
   var typingIndicatorRef = firebase.database().ref('typing_indicator/'+ $stateParams.uid + '-' + $sessionStorage.currentUser.uid);
   var typeStoppedPromise;
 
+  $scope.$on('$ionicView.enter', function(e) {
+    $ionicScrollDelegate.scrollBottom(true);
+  });
+
    typingIndicatorRef.on('value', function(snapshot) {
       $scope.typing = snapshot.val()
       $ionicScrollDelegate.scrollBottom(true);
